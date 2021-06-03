@@ -1,0 +1,33 @@
+{
+   "compilerOptions": {
+     "target":"ES2019",
+     "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
+
+     "module": "commonjs",
+     "declaration": false,
+     "skipLibCheck": true,
+     "strict": true,
+     "noImplicitAny": true,
+     "strictNullChecks": true,
+     "noImplicitThis": true,
+     "alwaysStrict": true,
+     "noUnusedLocals": true,
+     "noUnusedParameters": true,
+     "noImplicitReturns": true,
+     "noFallthroughCasesInSwitch": true,
+     "inlineSourceMap": true,
+     "inlineSources": true,
+     "experimentalDecorators": true,
+     "typeRoots": ["./node_modules/@types"],
+     "esModuleInterop": true,
+
+     // Extras
+     "outDir": "./dist/out-tsc",
+     "strictPropertyInitialization": true,
+
+     // Allow base imports
+     // XXX: Can't get to work with CDK for some reason
+     //"baseUrl": "."
+   },
+   "exclude": ["cdk.out"]
+ }
