@@ -1,22 +1,30 @@
 import {chromium} from 'playwright';
 
 async function main(): Promise<void> {
-   const browser = await chromium.launch({headless: false, devtools: true, slowMo: 2000});
+   const browser = await chromium.launch({headless: false, devtools: true/*, slowMo: 2000*/});
    const page = await browser.newPage();
-   await page.goto('https://www.google.com/maps');
-   await page.waitForTimeout(2000);
+   //await page.goto('https://www.google.com/maps');
+   await page.goto('https://leafletjs.com/examples/quick-start/example.html');
+   await page.waitForTimeout(500);
 
    await page.screenshot({ path: `page_one.png` });
 
-   const vp = page.viewportSize()!;
+   // Wait until map is in the DOM
+   await page.hover('#mapid');
+   const map_elt = await page.$('.leaflet-pane');
+   const bbox = (await map_elt?.boundingBox())!;
 
-   const m1 = [vp?.width-200, vp?.height-200];
-   const m2 = [vp?.width-100, vp?.height-100];
+   const pt = [bbox.x + bbox.width / 2, bbox.y + bbox.height / 2]
 
-   await page.mouse.move(m1[0], m1[1]);
+   await page.mouse.move(pt[0], pt[1]);
    await page.mouse.down();
-   await page.mouse.move(m2[0], m2[1]);
+   await page.waitForTimeout(250);
+
+   await page.mouse.move(pt[0]+100, pt[1]+100, {steps: 20});
+   await page.waitForTimeout(250);
+
    await page.mouse.up();
+   await page.waitForTimeout(250);
 
    await page.screenshot({ path: `page_two.png` });
 
